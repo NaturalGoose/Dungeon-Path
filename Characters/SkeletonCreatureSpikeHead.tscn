@@ -1,0 +1,216 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://Characters/NewEnemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameSprites/SkeletonWalkSpriteSheet.png" type="Texture" id=2]
+[ext_resource path="res://Characters/SkeletonSpikeHeadStateMachine.cs" type="Script" id=3]
+[ext_resource path="res://GameSprites/Explosion.png" type="Texture" id=4]
+[ext_resource path="res://Characters/Hitbox.cs" type="Script" id=5]
+[ext_resource path="res://Characters/SkeletonCreatureSpikeHead.cs" type="Script" id=6]
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 4 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 4 )
+region = Rect2( 32, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 4 )
+region = Rect2( 48, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 4 )
+region = Rect2( 64, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 2 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 2 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
+"loop": true,
+"name": "Dead",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "Walk",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=8]
+radius = 9.0
+
+[sub_resource type="Animation" id=15]
+resource_name = "Dead"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteAnimation:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Dead" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteAnimation:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 4 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.7 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "Hurt"
+tracks/0/type = "value"
+tracks/0/path = NodePath("CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteAnimation:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5, 0.7, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "Walk"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteAnimation:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Walk" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteAnimation:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2 ]
+}
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 13.7426
+height = 0.0
+
+[node name="SkeletonCreatureSpikeHead" instance=ExtResource( 1 )]
+position = Vector2( 0, 0 )
+script = ExtResource( 6 )
+Acceleration = 80
+MaxSpeed = 80
+HealthProperty = 1
+
+[node name="SpriteAnimation" parent="." index="0"]
+position = Vector2( 1, -1.19209e-07 )
+scale = Vector2( 0.8, 0.8 )
+frames = SubResource( 5 )
+animation = "Walk"
+playing = false
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2( 0, 0 )
+shape = SubResource( 8 )
+
+[node name="AnimationPlayer" parent="." index="2"]
+anims/Dead = SubResource( 15 )
+anims/Hurt = SubResource( 9 )
+anims/Walk = SubResource( 7 )
+
+[node name="FiniteStateMachine" parent="." index="3"]
+scale = Vector2( 1.00443, 1.02112 )
+script = ExtResource( 3 )
+
+[node name="NavigationAgent2D" parent="." index="5"]
+radius = 30.0
+
+[node name="Hitbox" type="Area2D" parent="." index="6"]
+position = Vector2( 1, 16 )
+collision_layer = 0
+collision_mask = 2
+script = ExtResource( 5 )
+KnockbackPower = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2( -1, -16 )
+rotation = 1.60369
+scale = Vector2( 0.8, 0.8 )
+z_index = 1
+shape = SubResource( 1 )
+
+[node name="RayCast2D" type="RayCast2D" parent="RayCasts" index="0"]
+enabled = true
+cast_to = Vector2( 30, 0 )
+
+[node name="RayCast2D2" type="RayCast2D" parent="RayCasts" index="1"]
+position = Vector2( 0, 8 )
+enabled = true
+cast_to = Vector2( 30, 0 )
+
+[node name="RayCast2D3" type="RayCast2D" parent="RayCasts" index="2"]
+position = Vector2( 0, -8 )
+enabled = true
+cast_to = Vector2( 30, 0 )

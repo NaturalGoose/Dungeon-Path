@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Characters/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Rooms/DungeonRooms.cs" type="Script" id=3]
+[ext_resource path="res://Game.cs" type="Script" id=4]
+[ext_resource path="res://GameSprites/HealthBar.png" type="Texture" id=5]
+[ext_resource path="res://GameSprites/WhiteHealthAmount.png" type="Texture" id=6]
+[ext_resource path="res://GUI.cs" type="Script" id=7]
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="GUI" type="CanvasLayer" parent="."]
+script = ExtResource( 7 )
+
+[node name="HealthBar" type="TextureProgress" parent="GUI"]
+margin_left = -32.0
+margin_top = -55.0
+margin_right = -6.0
+margin_bottom = -28.0
+rect_scale = Vector2( 4.73094, 5.13884 )
+max_value = 10.0
+value = 10.0
+texture_over = ExtResource( 5 )
+texture_progress = ExtResource( 6 )
+tint_progress = Color( 0.741176, 0.305882, 0.305882, 1 )
+nine_patch_stretch = true
+
+[node name="Tween" type="Tween" parent="GUI/HealthBar"]
+
+[node name="Rooms" type="Node2D" parent="."]
+script = ExtResource( 3 )
+NumberOfLevels = 8
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( -37, -18 )
+HealthProperty = 4
